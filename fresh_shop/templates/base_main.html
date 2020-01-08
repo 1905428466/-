@@ -1,0 +1,102 @@
+
+
+
+{% extends 'base.html' %}
+
+{% block css %}
+    {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+{% endblock %}
+
+
+{% block js1 %}
+    {% load static %}
+    <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+
+{% endblock %}
+
+
+
+{% block header %}
+    <div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+
+				<div class="login_info fl" style="display:block">
+					{% if user.id %}
+					欢迎您：<a href=""><em>{{ user.username }}</em></a>
+					<a href="{% url 'user:logout' %}"><em>退出登录</em></a>
+					{% endif %}
+				</div>
+
+
+				<div class="login_btn fl">
+					{% if not user.id %}
+
+
+					<a href="{% url 'user:login' %}">登录</a>
+					<span>|</span>
+					<a href="{% url 'user:register' %}">注册</a>
+					{% endif %}
+				</div>
+
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="{% url 'user:user_center_info' %}">用户中心</a>
+					<span>|</span>
+					<a href="{% url 'cart:cart' %}">我的购物车</a>
+					<span>|</span>
+					<a href="{% url 'user:user_order' %}">我的订单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block search %}
+    <div class="search_bar clearfix">
+		<a href="{% url 'goods:index' %}" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="search_con fl">
+			<form action="" method="get">
+				{% csrf_token %}
+			<input type="text" class="input_text fl" name="content" placeholder="搜索商品">
+				<a href=""><input type="button" class="input_btn fr" name="" value="搜索"></a>
+			</form>
+		</div>
+
+
+
+		<div class="guest_cart fr">
+			<a href="{% url 'cart:cart' %}" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl" id="show_count">1</div>
+		</div>
+		<script>
+			$.get('/cart/cart_num/',function(data){
+				if(data.code == '200'){
+					$('#show_count').text(data.count)
+				}
+			})
+		</script>
+	</div>
+{% endblock %}
+
+{% block footer %}
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+
+{% endblock %}
+
